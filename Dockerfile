@@ -1,13 +1,17 @@
 FROM python:3.11-alpine
 WORKDIR /app
-COPY app.py .
+COPY app.py requirements.txt .
 
-# Production Standard: Force update of all Alpine OS packages to patch underlying CVEs (like zlib)
+# 1. Force apk upgrade to patch underlying CVEs (like zlib)
 RUN apk update && apk upgrade --no-cache
 
-# Force upgrade of core Python packages
-RUN pip install --no-cache-dir --upgrade pip setuptools wheel
+# 2. Install application dependencies
+RUN pip install --no-cache-dir -r requirements.txt
 
+# 3. Create a non-root user and set permissions
 RUN adduser -D appuser && chown -R appuser /app
 USER appuser
-CMD ["python", "app.py"]
+
+# 4. Expose port 80 and start the web server
+EXPOSE 80
+CMD ["uvicorn", "app:app", "--host", "0.0.0.0", "--port", "80"]
