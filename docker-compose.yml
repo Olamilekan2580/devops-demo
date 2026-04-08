@@ -1,12 +1,16 @@
 version: '3.8'
 
 services:
-  app:
-    image: devops-demo:latest
-    container_name: devops-demo
-    restart: always
+  api:
+    # Replace olamilekan2580 with your exact GitHub username in lowercase if different
+    image: ghcr.io/olamilekan2580/devops-demo:latest
+    container_name: secured-portfolio-api
     ports:
-      - "3000:3000"
-    environment:
-      - NODE_ENV=production
-      - APP_VERSION=1.0.0
+      - "8080:80"
+    restart: always
+    security_opt:
+      - no-new-privileges:true
+    deploy:
+      resources:
+        limits:
+          memory: 512M
