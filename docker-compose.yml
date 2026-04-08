@@ -1,0 +1,12 @@
+version: '3.8'
+
+services:
+  app:
+    image: devops-demo:latest
+    container_name: devops-demo
+    restart: always
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+      - APP_VERSION=1.0.0
