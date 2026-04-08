@@ -1,6 +1,6 @@
-FROM python:3.10-slim
+FROM python:3.11-alpine
 WORKDIR /app
 COPY app.py .
-RUN useradd -m appuser && chown -R appuser /app
+RUN adduser -D appuser && chown -R appuser /app
 USER appuser
 CMD ["python", "app.py"]
